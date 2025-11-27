@@ -1,0 +1,45 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+*.tgz
+
+# Environment files
+.env*
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+Thumbs.db
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Icon?
+*.lnk
+
+# Logs
+logs
+*.log
+
+# Temporary files
+tmp/
+temp/
+
+# Coverage reports
+coverage/
+
+# Build artifacts
+*.zip
+*.tar.gz
+
+# Local development files
+*.local
