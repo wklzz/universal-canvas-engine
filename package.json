@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc && node scripts/build-umd.js",
     "prepare": "npm run build",
-    "dev": "concurrently \"tsc --watch\" \"live-server --port=5175 --host=localhost\""
+    "dev": "concurrently \"tsc --watch\" \"live-server --port=5175 --host=localhost --mount=/:examples\""
   },
   "files": [
     "dist"

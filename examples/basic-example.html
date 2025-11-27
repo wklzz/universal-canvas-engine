@@ -38,6 +38,7 @@
     <div class="controls">
         <button onclick="addRectangle()">添加矩形</button>
         <button onclick="addCircle()">添加圆形</button>
+        <button onclick="addImage()">增加图片</button>
         <button onclick="moveShape()">移动图形</button>
         <button onclick="changeColor()">改变颜色</button>
         <button onclick="removeShape()">删除图形</button>
@@ -108,6 +109,27 @@
             lastAddedShapeId = id;
         }
         
+        // 添加图片
+        function addImage() {
+            // 使用本地图片来避免CORS问题
+            const imageUrl = './images/sample.png';
+            const id = `image-${shapeCounter++}`;
+            
+            // 使用canvasEngine的addImage方法添加图片
+            canvasEngine.addImage(id, imageUrl, {
+                left: Math.random() * 600,
+                top: Math.random() * 400,
+                scaleX: 0.5,
+                scaleY: 0.5
+            }).then(() => {
+                lastAddedShapeId = id;
+                console.log('Image added successfully');
+            }).catch((error) => {
+                console.error('Failed to add image:', error);
+                alert('添加图片失败: ' + error.message);
+            });
+        }
+
         // 移动图形
         function moveShape() {
             if (lastAddedShapeId) {
@@ -165,5 +187,17 @@
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
 
 

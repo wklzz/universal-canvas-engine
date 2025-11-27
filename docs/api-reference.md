@@ -238,6 +238,40 @@ const fabricCanvas = new fabric.Canvas('canvas');
 const adapter = new FabricAdapter(fabricCanvas);
 ```
 
+#### addImage(id: string, url: string, options?: any): Promise<void>
+
+添加图片到画布。
+
+**参数:**
+- `id`: 图片的唯一标识符
+- `url`: 图片的URL地址
+- `options`: 图片选项（可选），支持Fabric.js Image的所有选项
+
+**返回值:**
+- `Promise<void>`: 当图片成功添加到画布时resolve，失败时reject
+
+**示例:**
+```typescript
+// 添加网络图片
+adapter.addImage('image1', 'https://example.com/image.png', {
+  left: 100,
+  top: 100,
+  scaleX: 0.5,
+  scaleY: 0.5
+}).then(() => {
+  console.log('图片添加成功');
+}).catch((error) => {
+  console.error('图片添加失败:', error);
+});
+
+// 添加本地图片
+adapter.addImage('image2', './images/sample.png', {
+  left: 200,
+  top: 200,
+  angle: 45
+});
+```
+
 ### SkylineAdapter
 
 Skyline.js 适配器实现。

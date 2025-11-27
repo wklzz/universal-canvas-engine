@@ -89,6 +89,22 @@ canvasEngine.addShape({
 });
 ```
 
+### 添加图片
+
+``typescript
+// 添加图片到画布
+canvasEngine.addImage('image1', './images/sample.png', {
+  left: 100,
+  top: 100,
+  scaleX: 0.5,
+  scaleY: 0.5
+}).then(() => {
+  console.log('图片添加成功');
+}).catch((error) => {
+  console.error('图片添加失败:', error);
+});
+```
+
 ### 移除图形
 
 ```typescript
@@ -165,7 +181,7 @@ universal-canvas-engine 提供了灵活的插件系统，允许您扩展引擎�
 
 ### 创建自定义插件
 
-```typescript
+``typescript
 import { BasePlugin } from 'universal-canvas-engine';
 
 class MyCustomPlugin extends BasePlugin {
@@ -207,7 +223,7 @@ plugin.uninstall(engine);
 
 ### 序列化画布状态
 
-```typescript
+``typescript
 // 获取画布的序列化表示
 const serializedData = canvasEngine.serialize();
 console.log(serializedData);
@@ -215,7 +231,7 @@ console.log(serializedData);
 
 ### 反序列化画布状态
 
-```typescript
+``typescript
 // 从序列化数据恢复画布状态
 const jsonData = '{"shapes":[{"id":"rect1","type":"rectangle","x":100,"y":100,"width":50,"height":50,"color":"#ff0000"}]}';
 canvasEngine.deserialize(jsonData);
@@ -223,7 +239,7 @@ canvasEngine.deserialize(jsonData);
 
 ## 事件处理
 
-```typescript
+``typescript
 // 监听事件
 canvasEngine.on('shapeAdded', (shape) => {
   console.log('Shape added:', shape);
@@ -239,7 +255,7 @@ canvasEngine.off('shapeRemoved', callback);
 
 ## 按图层绘制
 
-```typescript
+``typescript
 // 创建图层数据
 const layers = [
   // 第一层
@@ -259,7 +275,7 @@ canvasEngine.draw(layers);
 
 ## 完整示例
 
-```typescript
+``typescript
 import { FabricAdapter } from 'universal-canvas-engine';
 
 // 初始化 Fabric.js 画布
