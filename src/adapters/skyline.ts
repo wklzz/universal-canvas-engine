@@ -33,6 +33,12 @@ export class SkylineAdapter implements ICanvasEngine {
     // 实现设置Skyline画布上形状颜色的逻辑
     console.log(`Setting color of shape ${id} to ${color}`);
   }
+  
+  addImage(id: string, url: string, options?: any): Promise<void> {
+    // Skyline适配器中的图片添加功能占位符
+    console.log(`Adding image ${id} from ${url} to Skyline canvas`);
+    return Promise.resolve();
+  }
 
   draw(layers: Shape[][]): void {
     // 实现按图层顺序绘制的逻辑

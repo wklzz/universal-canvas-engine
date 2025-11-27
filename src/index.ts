@@ -22,6 +22,9 @@ export interface ICanvasEngine {
   moveShape(id: string, x: number, y: number): void;
   resizeShape(id: string, width: number, height: number): void;
   setColor(id: string, color: string): void;
+  
+  // 添加图片方法
+  addImage(id: string, url: string, options?: any): Promise<void>;
 
   // 绘制接口（按图层顺序绘制）
   draw(layers: (Shape[] | ExtendedShape[])[]): void;
