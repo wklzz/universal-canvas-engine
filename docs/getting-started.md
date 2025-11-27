@@ -91,7 +91,7 @@ canvasEngine.addShape({
 
 ### 添加图片
 
-``typescript
+```typescript
 // 添加图片到画布
 canvasEngine.addImage('image1', './images/sample.png', {
   left: 100,
