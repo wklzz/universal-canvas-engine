@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Example - Universal Canvas Engine</title>
+    <script src="https://unpkg.com/fabric@5.0.0/dist/fabric.min.js"></script>
+</head>
+<body>
+    <h1>Test Example - Universal Canvas Engine</h1>
+    <p>测试 @universal-canvas/engine 是否正常工作。</p>
+    
+    <div id="canvas-container">
+        <canvas id="canvas" width="800" height="600"></canvas>
+    </div>
+
+    <!-- 引入 @universal-canvas/engine -->
+    <script src="../dist/index.js"></script>
+    
+    <script>
+        // 测试是否能正确访问到类
+        console.log('FabricAdapter:', typeof window.FabricAdapter);
+        console.log('SkylineAdapter:', typeof window.SkylineAdapter);
+        console.log('BasePlugin:', typeof window.BasePlugin);
+        console.log('ExamplePlugin:', typeof window.ExamplePlugin);
+        
+        // 初始化 Fabric.js 画布
+        const fabricCanvas = new fabric.Canvas('canvas');
+        
+        // 创建适配器实例
+        const canvasEngine = new window.FabricAdapter(fabricCanvas);
+        
+        // 测试添加图形
+        canvasEngine.addShape({
+            id: 'test-rect',
+            type: 'rectangle',
+            x: 100,
+            y: 100,
+            width: 100,
+            height: 100,
+            color: '#ff0000'
+        });
+        
+        console.log('测试完成');
+    </script>
+</body>
+</html>

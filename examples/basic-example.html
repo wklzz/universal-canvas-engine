@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Example - Universal Canvas Engine</title>
+    <script src="https://unpkg.com/fabric@5.0.0/dist/fabric.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #canvas-container {
+            border: 1px solid #ccc;
+            margin: 20px 0;
+        }
+        button {
+            margin: 5px;
+            padding: 10px 15px;
+            background-color: #007acc;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #005a9e;
+        }
+        .controls {
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Basic Example - Universal Canvas Engine</h1>
+    <p>这是一个基础示例，展示如何使用 @universal-canvas/engine 的 FabricAdapter。</p>
+    
+    <div class="controls">
+        <button onclick="addRectangle()">添加矩形</button>
+        <button onclick="addCircle()">添加圆形</button>
+        <button onclick="moveShape()">移动图形</button>
+        <button onclick="changeColor()">改变颜色</button>
+        <button onclick="removeShape()">删除图形</button>
+        <button onclick="serializeCanvas()">序列化</button>
+        <button onclick="deserializeCanvas()">反序列化</button>
+    </div>
+    
+    <div id="canvas-container">
+        <canvas id="canvas" width="800" height="600"></canvas>
+    </div>
+    
+    <div>
+        <h3>序列化数据:</h3>
+        <textarea id="serialized-data" rows="10" cols="80"></textarea>
+    </div>
+
+    <!-- 引入 @universal-canvas/engine UMD版本 -->
+    <script src="../dist/umd/universal-canvas-engine.js"></script>
+    
+    <script>
+        // 初始化 Fabric.js 画布
+        const fabricCanvas = new fabric.Canvas('canvas');
+        
+        // 创建适配器实例
+        const canvasEngine = new FabricAdapter(fabricCanvas);
+        
+        // 声明全局变量
+        let shapeCounter = 0;
+        let lastAddedShapeId = null;
+        
+        // 生成随机颜色
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+        
+        // 添加矩形
+        function addRectangle() {
+            const id = `rect-${shapeCounter++}`;
+            canvasEngine.addShape({
+                id: id,
+                type: 'rectangle',
+                x: Math.random() * 600,
+                y: Math.random() * 400,
+                width: 50 + Math.random() * 100,
+                height: 50 + Math.random() * 100,
+                color: getRandomColor()
+            });
+            lastAddedShapeId = id;
+        }
+        
+        // 添加圆形
+        function addCircle() {
+            const id = `circle-${shapeCounter++}`;
+            canvasEngine.addShape({
+                id: id,
+                type: 'circle',
+                x: Math.random() * 600,
+                y: Math.random() * 400,
+                width: 30 + Math.random() * 70,
+                height: 30 + Math.random() * 70,
+                color: getRandomColor()
+            });
+            lastAddedShapeId = id;
+        }
+        
+        // 移动图形
+        function moveShape() {
+            if (lastAddedShapeId) {
+                canvasEngine.moveShape(lastAddedShapeId, 
+                    Math.random() * 600, 
+                    Math.random() * 400);
+            } else {
+                alert('请先添加一个图形');
+            }
+        }
+        
+        // 改变颜色
+        function changeColor() {
+            if (lastAddedShapeId) {
+                canvasEngine.setColor(lastAddedShapeId, getRandomColor());
+            } else {
+                alert('请先添加一个图形');
+            }
+        }
+        
+        // 删除图形
+        function removeShape() {
+            if (lastAddedShapeId) {
+                canvasEngine.removeShape(lastAddedShapeId);
+                lastAddedShapeId = null;
+            } else {
+                alert('请先添加一个图形');
+            }
+        }
+        
+        // 序列化画布
+        function serializeCanvas() {
+            const serializedData = canvasEngine.serialize();
+            document.getElementById('serialized-data').value = serializedData;
+        }
+        
+        // 反序列化画布
+        function deserializeCanvas() {
+            const serializedData = document.getElementById('serialized-data').value;
+            if (serializedData) {
+                canvasEngine.deserialize(serializedData);
+            } else {
+                alert('请先序列化画布数据');
+            }
+        }
+        
+        // 添加事件监听器示例
+        canvasEngine.on('shapeAdded', (shape) => {
+            console.log('图形已添加:', shape);
+        });
+        
+        canvasEngine.on('shapeRemoved', (id) => {
+            console.log('图形已删除:', id);
+        });
+    </script>
+</body>
+</html>
+
+

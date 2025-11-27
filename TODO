@@ -1,0 +1,11 @@
+已经完成的条目后面标记为[完成]，未完成的条目后面标记为[进行中]。
+1、可以NPM发布。[完成]
+2、完善TypeScript类型定义和接口实现。[完成]
+3、创建适配器模式支持多种Canvas实现。[完成]
+4、添加插件系统支持扩展功能。[完成]
+5、创建npm run dev 脚本支持本地开发。[完成]
+6、npm run dev 增加5175端口支持，可以访问本地服务器。[完成]
+7、增加examples/index.html页面，连接所有示例，并设置为服务器默认页面。[完成]
+8、安装@universal-canvas/schema，并使用@universal-canvas/schema进行类型定义，并在文档中体现。[完成]
+9、发布本项目为@universal-canvas/engine，使其可以在npm上被其他人使用。[完成]
+10、创建gitignore文件，忽略不必要的文件和目录。[完成]

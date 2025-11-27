@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test UMD - Universal Canvas Engine</title>
+    <script src="https://unpkg.com/fabric@5.0.0/dist/fabric.min.js"></script>
+</head>
+<body>
+    <h1>Test UMD - Universal Canvas Engine</h1>
+    <p>测试UMD版本是否正常工作。</p>
+    
+    <div>
+        <button onclick="testClasses()">测试类是否存在</button>
+        <button onclick="testInstance()">测试实例化</button>
+    </div>
+    
+    <div id="result"></div>
+
+    <!-- 引入 @universal-canvas/engine UMD版本 -->
+    <script src="../dist/umd/universal-canvas-engine.js"></script>
+    
+    <script>
+        function testClasses() {
+            const result = document.getElementById('result');
+            result.innerHTML = `
+                <p>FabricAdapter: ${typeof FabricAdapter}</p>
+                <p>SkylineAdapter: ${typeof SkylineAdapter}</p>
+                <p>BasePlugin: ${typeof BasePlugin}</p>
+                <p>ExamplePlugin: ${typeof ExamplePlugin}</p>
+            `;
+        }
+        
+        function testInstance() {
+            try {
+                // 初始化 Fabric.js 画布
+                const canvasElement = document.createElement('canvas');
+                document.body.appendChild(canvasElement);
+                const fabricCanvas = new fabric.Canvas(canvasElement);
+                
+                // 创建适配器实例
+                const canvasEngine = new FabricAdapter(fabricCanvas);
+                
+                // 测试添加图形
+                canvasEngine.addShape({
+                    id: 'test-rect',
+                    type: 'rectangle',
+                    x: 100,
+                    y: 100,
+                    width: 100,
+                    height: 100,
+                    color: '#ff0000'
+                });
+                
+                document.getElementById('result').innerHTML = '<p>实例化测试成功！</p>';
+                document.body.removeChild(canvasElement);
+            } catch (error) {
+                document.getElementById('result').innerHTML = `<p>实例化测试失败: ${error.message}</p>`;
+            }
+        }
+        
+        console.log('页面加载完成，测试环境准备就绪');
+    </script>
+</body>
+</html>

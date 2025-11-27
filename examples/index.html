@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Universal Canvas Engine - 示例导航</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .example-card {
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #fafafa;
+            transition: box-shadow 0.3s ease;
+        }
+        .example-card:hover {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+        .example-card h2 {
+            margin-top: 0;
+            color: #007acc;
+        }
+        .example-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+        .example-link {
+            display: inline-block;
+            background-color: #007acc;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .example-link:hover {
+            background-color: #005a9e;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #999;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Universal Canvas Engine 示例导航</h1>
+        
+        <div class="example-card">
+            <h2>基础使用示例</h2>
+            <p>展示如何使用 @universal-canvas/engine 的基本功能，包括图形的增删改查操作、序列化和反序列化功能。</p>
+            <a href="basic-example.html" class="example-link">查看示例</a>
+        </div>
+        
+        <div class="example-card">
+            <h2>插件系统示例</h2>
+            <p>演示如何创建和使用自定义插件，包括插件的安装、卸载和功能调用。</p>
+            <a href="plugin-example.html" class="example-link">查看示例</a>
+        </div>
+        
+        <div class="example-card">
+            <h2>图层操作示例</h2>
+            <p>展示如何使用 draw 方法按图层顺序绘制图形，支持复杂的图层管理。</p>
+            <a href="layer-example.html" class="example-link">查看示例</a>
+        </div>
+        
+        <div class="footer">
+            <p>Universal Canvas Engine - 统一的Canvas API引擎</p>
+        </div>
+    </div>
+</body>
+</html>

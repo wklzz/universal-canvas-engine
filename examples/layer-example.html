@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layer Example - Universal Canvas Engine</title>
+    <script src="https://unpkg.com/fabric@5.0.0/dist/fabric.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        #canvas-container {
+            border: 1px solid #ccc;
+            margin: 20px 0;
+        }
+        button {
+            margin: 5px;
+            padding: 10px 15px;
+            background-color: #007acc;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #005a9e;
+        }
+        .controls {
+            margin: 20px 0;
+        }
+        .layer-controls {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Layer Example - Universal Canvas Engine</h1>
+    <p>这是一个图层操作示例，展示如何使用 draw 方法按图层顺序绘制图形。</p>
+    
+    <div class="controls">
+        <button onclick="drawLayers()">绘制图层</button>
+        <button onclick="addRandomLayer()">添加随机图层</button>
+        <button onclick="clearCanvas()">清空画布</button>
+    </div>
+    
+    <div class="layer-controls">
+        <h3>预设图层示例:</h3>
+        <button onclick="drawBackgroundLayer()">背景层</button>
+        <button onclick="drawContentLayer()">内容层</button>
+        <button onclick="drawOverlayLayer()">覆盖层</button>
+    </div>
+    
+    <div id="canvas-container">
+        <canvas id="canvas" width="800" height="600"></canvas>
+    </div>
+
+    <!-- 引入 @universal-canvas/engine UMD版本 -->
+    <script src="../dist/umd/universal-canvas-engine.js"></script>
+    
+    <script>
+        // 初始化 Fabric.js 画布
+        const fabricCanvas = new fabric.Canvas('canvas');
+        
+        // 创建适配器实例
+        const canvasEngine = new FabricAdapter(fabricCanvas);
+        
+        // 声明全局变量
+        let layerCounter = 0;
+        
+        // 生成随机颜色
+        function getRandomColor() {
+            const letters = '0123456789ABCDEF';
+            let color = '#';
+            for (let i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+        
+        // 绘制预设图层
+        function drawLayers() {
+            const layers = [
+                // 背景层
+                [
+                    { 
+                        id: 'bg-1', 
+                        type: 'rectangle', 
+                        x: 0, 
+                        y: 0, 
+                        width: 800, 
+                        height: 600, 
+                        color: '#f0f0f0' 
+                    }
+                ],
+                // 内容层
+                [
+                    { 
+                        id: 'content-1', 
+                        type: 'rectangle', 
+                        x: 100, 
+                        y: 100, 
+                        width: 200, 
+                        height: 150, 
+                        color: '#ff6b6b' 
+                    },
+                    { 
+                        id: 'content-2', 
+                        type: 'circle', 
+                        x: 400, 
+                        y: 200, 
+                        width: 100, 
+                        height: 100, 
+                        color: '#4ecdc4' 
+                    }
+                ],
+                // 覆盖层
+                [
+                    { 
+                        id: 'overlay-1', 
+                        type: 'rectangle', 
+                        x: 300, 
+                        y: 150, 
+                        width: 50, 
+                        height: 50, 
+                        color: '#ffe66d' 
+                    }
+                ]
+            ];
+            
+            canvasEngine.draw(layers);
+        }
+        
+        // 绘制背景层
+        function drawBackgroundLayer() {
+            const backgroundLayer = [
+                { 
+                    id: 'bg-solid', 
+                    type: 'rectangle', 
+                    x: 0, 
+                    y: 0, 
+                    width: 800, 
+                    height: 600, 
+                    color: '#f8f9fa' 
+                },
+                { 
+                    id: 'bg-grid', 
+                    type: 'rectangle', 
+                    x: 50, 
+                    y: 50, 
+                    width: 700, 
+                    height: 500, 
+                    color: 'transparent',
+                    stroke: '#dee2e6',
+                    strokeWidth: 1
+                }
+            ];
+            
+            canvasEngine.draw([backgroundLayer]);
+        }
+        
+        // 绘制内容层
+        function drawContentLayer() {
+            const contentLayer = [
+                { 
+                    id: 'main-rect', 
+                    type: 'rectangle', 
+                    x: 200, 
+                    y: 150, 
+                    width: 300, 
+                    height: 200, 
+                    color: '#3498db' 
+                },
+                { 
+                    id: 'main-circle', 
+                    type: 'circle', 
+                    x: 400, 
+                    y: 250, 
+                    width: 80, 
+                    height: 80, 
+                    color: '#e74c3c' 
+                }
+            ];
+            
+            // 获取当前画布状态并添加新图层
+            canvasEngine.draw([contentLayer]);
+        }
+        
+        // 绘制覆盖层
+        function drawOverlayLayer() {
+            const overlayLayer = [
+                { 
+                    id: 'highlight', 
+                    type: 'rectangle', 
+                    x: 220, 
+                    y: 170, 
+                    width: 260, 
+                    height: 30, 
+                    color: '#f39c12',
+                    opacity: 0.7
+                }
+            ];
+            
+            canvasEngine.draw([overlayLayer]);
+        }
+        
+        // 添加随机图层
+        function addRandomLayer() {
+            const layerId = `layer-${layerCounter++}`;
+            const shapes = [];
+            
+            // 生成随机图形
+            const shapeCount = Math.floor(Math.random() * 5) + 1;
+            for (let i = 0; i < shapeCount; i++) {
+                const shapeType = Math.random() > 0.5 ? 'rectangle' : 'circle';
+                shapes.push({
+                    id: `${layerId}-shape-${i}`,
+                    type: shapeType,
+                    x: Math.random() * 700,
+                    y: Math.random() * 500,
+                    width: 20 + Math.random() * 80,
+                    height: 20 + Math.random() * 80,
+                    color: getRandomColor()
+                });
+            }
+            
+            canvasEngine.draw([shapes]);
+        }
+        
+        // 清空画布
+        function clearCanvas() {
+            fabricCanvas.clear();
+        }
+    </script>
+</body>
+</html>
