@@ -20,6 +20,7 @@ export class FabricAdapter implements ICanvasEngine {
     switch (shape.type) {
       case 'rectangle':
         fabricObject = new fabric.Rect({
+          id: shape.id,
           left: shape.x,
           top: shape.y,
           width: shape.width,
@@ -30,6 +31,7 @@ export class FabricAdapter implements ICanvasEngine {
         
       case 'circle':
         fabricObject = new fabric.Circle({
+          id: shape.id,
           left: shape.x,
           top: shape.y,
           radius: Math.min(shape.width, shape.height) / 2,
@@ -45,6 +47,7 @@ export class FabricAdapter implements ICanvasEngine {
       default:
         // 默认创建一个矩形
         fabricObject = new fabric.Rect({
+          id: shape.id,
           left: shape.x,
           top: shape.y,
           width: shape.width,
@@ -179,6 +182,7 @@ export class FabricAdapter implements ICanvasEngine {
     this.canvas.loadFromJSON(data, () => {
       this.canvas.renderAll();
       // 重新建立shapes映射
+      this.shapes.clear();
       this.canvas.getObjects().forEach((obj: any) => {
         if (obj.id) {
           this.shapes.set(obj.id, obj);
