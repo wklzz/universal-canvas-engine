@@ -1,6 +1,6 @@
 {
   "name": "@universal-canvas/engine",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A universal canvas engine with adapters for Fabric, Skyline, etc.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
