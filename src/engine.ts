@@ -1,11 +1,13 @@
-import { ICanvasEngine } from './index';
+import { ICanvasEngine, CanvasEventType, EventCallback } from './index';
 import { FabricAdapter } from './adapters/fabric';
 import { SkylineAdapter } from './adapters/skyline';
 import { PluginManager } from './plugins/plugin';
+import { EventManager } from './events/event-manager';
 
 export class UniversalCanvasEngine implements ICanvasEngine {
   private adapter: ICanvasEngine;
   private pluginManager: PluginManager;
+  private eventManager: EventManager;
 
   constructor(canvasElement: HTMLCanvasElement, adapterType: 'fabric' | 'skyline' = 'fabric') {
     if (adapterType === 'fabric') {
@@ -15,6 +17,7 @@ export class UniversalCanvasEngine implements ICanvasEngine {
     }
     
     this.pluginManager = new PluginManager(this);
+    this.eventManager = new EventManager(this.adapter);
   }
 
   addShape(shape: any): void {
@@ -49,12 +52,12 @@ export class UniversalCanvasEngine implements ICanvasEngine {
     this.adapter.draw(layers);
   }
 
-  on(event: string, callback: Function): void {
-    this.adapter.on(event, callback);
+  on(event: CanvasEventType, callback: EventCallback): void {
+    this.eventManager.on(event, callback);
   }
 
-  off(event: string, callback: Function): void {
-    this.adapter.off(event, callback);
+  off(event: CanvasEventType, callback: EventCallback): void {
+    this.eventManager.off(event, callback);
   }
 
   serialize(): string {
@@ -67,5 +70,14 @@ export class UniversalCanvasEngine implements ICanvasEngine {
 
   getPluginManager(): PluginManager {
     return this.pluginManager;
+  }
+
+  /**
+   * 触发事件
+   * @param event 事件类型
+   * @param args 参数
+   */
+  emit(event: CanvasEventType, ...args: any[]): void {
+    this.eventManager.emit(event, ...args);
   }
 }

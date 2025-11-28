@@ -1,14 +1,32 @@
 import { ICanvasEngine } from '../index';
-import * as fabric from 'fabric';
+import { CanvasEventType, EventCallback } from '../types/events';
+
+// 为了在浏览器和Node.js环境中都能正常工作，我们需要动态获取fabric对象
+// 在Node.js环境中导入fabric
+import * as fabricNamespace from 'fabric';
 
 export class FabricAdapter implements ICanvasEngine {
-  private canvas: fabric.Canvas;
+  private canvas: any;
   private shapes: Map<string, any> = new Map();
 
   constructor(canvasElement: HTMLCanvasElement) {
     // 这里应该初始化fabric.Canvas，但由于我们不想让使用方安装fabric，
     // 我们会在构建时将其作为外部依赖处理
-    this.canvas = new fabric.Canvas(canvasElement);
+    // 在浏览器环境中，fabric是全局对象
+    // 在Node.js环境中，我们使用导入的fabricNamespace
+    let fabricInstance: any;
+    
+    if (typeof fabric !== 'undefined') {
+      // 浏览器环境
+      fabricInstance = fabric;
+    } else if (typeof fabricNamespace !== 'undefined') {
+      // Node.js环境
+      fabricInstance = fabricNamespace;
+    } else {
+      throw new Error('Fabric library is not available. Please include fabric.js in your HTML or install fabric package.');
+    }
+    
+    this.canvas = new fabricInstance.Canvas(canvasElement);
   }
 
   addShape(shape: any): void {
@@ -51,7 +69,7 @@ export class FabricAdapter implements ICanvasEngine {
   }
 
   addText(text: string, x: number, y: number, options?: any): void {
-    const textObj = new fabric.FabricText(text, {
+    const textObj = new fabric.Text(text, {
       left: x,
       top: y,
       ...options
@@ -68,7 +86,7 @@ export class FabricAdapter implements ICanvasEngine {
     const imgElement = document.createElement('img');
     imgElement.src = src;
     imgElement.onload = () => {
-      const img = new fabric.FabricImage(imgElement, {
+      const img = new fabric.Image(imgElement, {
         left: x,
         top: y,
         ...options
@@ -95,12 +113,17 @@ export class FabricAdapter implements ICanvasEngine {
     this.canvas.renderAll();
   }
 
-  on(event: string, callback: Function): void {
-    this.canvas.on(event as keyof fabric.CanvasEvents, callback as any);
+  on(event: CanvasEventType, callback: EventCallback): void {
+    this.canvas.on(event, callback as any);
   }
 
-  off(event: string, callback: Function): void {
-    this.canvas.off(event as keyof fabric.CanvasEvents, callback as any);
+  off(event: CanvasEventType, callback: EventCallback): void {
+    this.canvas.off(event, callback as any);
+  }
+
+  emit(event: CanvasEventType, ...args: any[]): void {
+    // Fabric适配器不直接实现emit方法
+    // 事件通过canvas触发
   }
 
   serialize(): string {

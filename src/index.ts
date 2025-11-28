@@ -14,8 +14,9 @@ export interface ICanvasEngine {
   draw(layers: any[][]): void;
 
   // 事件代理
-  on(event: string, callback: Function): void;
-  off(event: string, callback: Function): void;
+  on(event: import('./types/events').CanvasEventType, callback: import('./types/events').EventCallback): void;
+  off(event: import('./types/events').CanvasEventType, callback: import('./types/events').EventCallback): void;
+  emit(event: import('./types/events').CanvasEventType, ...args: any[]): void;
 
   // 序列化 / 反序列化
   serialize(): string;
@@ -28,6 +29,7 @@ export { SkylineAdapter } from './adapters/skyline';
 
 // 导出类型定义
 export * from './types/schema';
+export * from './types/events';
 
 // 导出核心引擎
 export { UniversalCanvasEngine } from './engine';

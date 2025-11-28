@@ -1,4 +1,5 @@
 import { ICanvasEngine } from '../index';
+import { CanvasEventType, EventCallback } from '../types/events';
 
 export class SkylineAdapter implements ICanvasEngine {
   private canvas: any;
@@ -96,12 +97,17 @@ export class SkylineAdapter implements ICanvasEngine {
     this.canvas.render();
   }
 
-  on(event: string, callback: Function): void {
+  on(event: CanvasEventType, callback: EventCallback): void {
     // 实现事件监听
   }
 
-  off(event: string, callback: Function): void {
+  off(event: CanvasEventType, callback: EventCallback): void {
     // 实现事件解绑
+  }
+
+  emit(event: CanvasEventType, ...args: any[]): void {
+    // Skyline适配器不直接实现emit方法
+    // 事件通过canvas触发
   }
 
   serialize(): string {

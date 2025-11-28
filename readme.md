@@ -149,6 +149,36 @@ const myPlugin = new MyPlugin();
 pluginManager.register(myPlugin);
 ```
 
+### 事件系统
+
+```typescript
+import { CanvasEventType } from '@universal-canvas/engine';
+
+// 监听对象添加事件
+engine.on('object:added', function(options) {
+  console.log('对象已添加:', options.target.type);
+});
+
+// 监听自定义事件
+engine.on('shape:added', function(options) {
+  console.log('形状已添加:', options.target.type);
+});
+
+// 监听鼠标事件
+engine.on('mouse:down', function(options) {
+  console.log('鼠标按下位置:', options.pointer.x, options.pointer.y);
+});
+
+// 触发自定义事件
+engine.emit('custom:event', { message: 'Hello Events!' });
+
+// 移除事件监听器
+const callback = function(options) { /* ... */ };
+engine.on('object:added', callback);
+// ... later
+engine.off('object:added', callback);
+```
+
 ## 使用 @universal-canvas/schema
 
 从版本 0.1.0 开始，我们集成了 `@universal-canvas/schema` 包来提供标准化的类型定义。
@@ -203,18 +233,23 @@ if (validationResult.success) {
 ```typescript
 interface ICanvasEngine {
     // 基础操作
-    addShape(shape: Shape | ExtendedShape): void;
+    addShape(shape: any): void;
     removeShape(id: string): void;
     moveShape(id: string, x: number, y: number): void;
     resizeShape(id: string, width: number, height: number): void;
     setColor(id: string, color: string): void;
+    
+    // 特殊形状操作
+    addText(text: string, x: number, y: number, options?: any): void;
+    addImage(src: string, x: number, y: number, options?: any): void;
 
     // 绘制接口（按图层顺序绘制）
-    draw(layers: (Shape[] | ExtendedShape[])[]): void;
+    draw(layers: any[][]): void;
 
     // 事件代理
-    on(event: string, callback: Function): void;
-    off(event: string, callback: Function): void;
+    on(event: CanvasEventType, callback: EventCallback): void;
+    off(event: CanvasEventType, callback: EventCallback): void;
+    emit(event: CanvasEventType, ...args: any[]): void;
 
     // 序列化 / 反序列化
     serialize(): string;
