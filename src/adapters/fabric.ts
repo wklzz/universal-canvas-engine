@@ -1,5 +1,7 @@
 import { ICanvasEngine } from '../index';
 import { CanvasEventType, EventCallback } from '../types/events';
+import { CanvasSchema } from '../types/schema';
+import { convertSchemaToFabric, convertFabricToSchema } from '../utils/schema-converter';
 
 // 为了在浏览器和Node.js环境中都能正常工作，我们需要动态获取fabric对象
 // 在Node.js环境中导入fabric
@@ -53,7 +55,7 @@ export class FabricAdapter implements ICanvasEngine {
   }
 
   addText(text: string, x: number, y: number, options?: any): void {
-    const textObj = new fabric.Text(text, {
+    const textObj = new fabric.FabricText(text, {
       left: x,
       top: y,
       ...options
@@ -70,7 +72,18 @@ export class FabricAdapter implements ICanvasEngine {
     const imgElement = document.createElement('img');
     imgElement.src = src;
     imgElement.onload = () => {
-      const img = new fabric.Image(imgElement, {
+      console.log('图片宽度:', imgElement.width);
+      console.log('图片高度:', imgElement.height);
+
+      if (x === 0) {
+        x = imgElement.width;
+      }
+
+      if (y === 0) {
+        y = imgElement.height;
+      }
+
+      const img = new fabric.FabricImage(imgElement, {
         left: x,
         top: y,
         ...options
@@ -154,11 +167,17 @@ export class FabricAdapter implements ICanvasEngine {
   }
 
   serialize(): string {
-    return JSON.stringify(this.canvas.toJSON());
+    // 将Fabric数据转换为标准Schema格式
+    const fabricData = this.canvas.toJSON();
+    const schema = convertFabricToSchema(fabricData);
+    return JSON.stringify(schema);
   }
 
   deserialize(json: string): void {
-    this.canvas.loadFromJSON(json, () => {
+    // 将标准Schema格式转换为Fabric数据
+    const schema: CanvasSchema = JSON.parse(json);
+    const fabricData = convertSchemaToFabric(schema);
+    this.canvas.loadFromJSON(fabricData, () => {
       this.canvas.renderAll();
     });
   }

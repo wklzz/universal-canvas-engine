@@ -1,5 +1,7 @@
 import { ICanvasEngine } from '../index';
 import { CanvasEventType, EventCallback } from '../types/events';
+import { CanvasSchema } from '../types/schema';
+import { convertSchemaToSkyline, convertSkylineToSchema } from '../utils/schema-converter';
 
 export class SkylineAdapter implements ICanvasEngine {
   private canvas: any;
@@ -111,11 +113,17 @@ export class SkylineAdapter implements ICanvasEngine {
   }
 
   serialize(): string {
-    return JSON.stringify(this.canvas.toJSON());
+    // 将Skyline数据转换为标准Schema格式
+    const skylineData = this.canvas.toJSON();
+    const schema = convertSkylineToSchema(skylineData);
+    return JSON.stringify(schema);
   }
 
   deserialize(json: string): void {
-    this.canvas.loadFromJSON(json, () => {
+    // 将标准Schema格式转换为Skyline数据
+    const schema: CanvasSchema = JSON.parse(json);
+    const skylineData = convertSchemaToSkyline(schema);
+    this.canvas.loadFromJSON(skylineData, () => {
       this.canvas.render();
     });
   }

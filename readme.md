@@ -256,3 +256,13 @@ interface ICanvasEngine {
     deserialize(json: string): void;
 }
 ```
+
+## 标准格式映射
+
+Universal Canvas Engine 使用 [@universal-canvas/schema](https://github.com/universal-canvas/schema) 作为标准数据格式，所有适配器都会在内部将标准格式转换为各自特定的格式：
+
+- **Fabric适配器**：将标准格式转换为Fabric.js格式
+- **Skyline适配器**：将标准格式转换为Skyline格式
+
+这种设计确保了数据的一致性和可移植性，用户可以无缝切换不同的Canvas实现而无需修改数据格式。
+```
