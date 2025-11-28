@@ -13,7 +13,7 @@
     "dist"
   ],
   "peerDependencies": {
-    "fabric": "^5.5.2"
+    "fabric": "^6.9.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^29.0.0",
@@ -24,7 +24,6 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "@types/fabric": "^5.3.10",
     "@universal-canvas/schema": "^1.0.0"
   }
 }

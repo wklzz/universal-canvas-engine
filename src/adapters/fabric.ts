@@ -1,8 +1,8 @@
 import { ICanvasEngine } from '../index';
-import { fabric } from 'fabric';
+import * as fabric from 'fabric';
 
 export class FabricAdapter implements ICanvasEngine {
-  private canvas: any;
+  private canvas: fabric.Canvas;
   private shapes: Map<string, any> = new Map();
 
   constructor(canvasElement: HTMLCanvasElement) {
@@ -65,11 +65,11 @@ export class FabricAdapter implements ICanvasEngine {
   }
 
   on(event: string, callback: Function): void {
-    this.canvas.on(event, callback);
+    this.canvas.on(event as keyof fabric.CanvasEvents, callback as any);
   }
 
   off(event: string, callback: Function): void {
-    this.canvas.off(event, callback);
+    this.canvas.off(event as keyof fabric.CanvasEvents, callback as any);
   }
 
   serialize(): string {
