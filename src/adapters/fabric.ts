@@ -86,7 +86,7 @@ export class FabricAdapter implements ICanvasEngine {
     // 根据形状类型创建对应的fabric对象
     switch (shape.type) {
       case 'rectangle':
-        return new (window as any).fabric.Rect({
+        return new fabric.Rect({
           id: shape.id,
           left: shape.x,
           top: shape.y,
@@ -95,7 +95,7 @@ export class FabricAdapter implements ICanvasEngine {
           fill: shape.color || '#000000'
         });
       case 'circle':
-        return new (window as any).fabric.Circle({
+        return new fabric.Circle({
           id: shape.id,
           left: shape.x,
           top: shape.y,
