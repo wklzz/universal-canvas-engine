@@ -97,16 +97,59 @@ export class FabricAdapter implements ICanvasEngine {
     this.canvas.renderAll();
   }
 
+  /**
+   * 添加事件监听器
+   * @param event 事件类型
+   * @param callback 事件回调函数
+ // 鼠标事件
+  | 'mouse:down'
+  | 'mouse:move'
+  | 'mouse:up'
+  | 'mouse:over'
+  | 'mouse:out'
+  | 'mouse:enter'
+  | 'mouse:leave'
+  | 'mouse:wheel'
+   */
+
   on(event: CanvasEventType, callback: EventCallback): void {
-    this.canvas.on(event, callback as any);
+    switch (event) {
+      case 'object:added':
+        this.canvas.on('object:added', callback as any);
+        break;
+      case 'object:removed':
+        this.canvas.on('object:removed', callback as any);
+        break;
+      case 'object:modified':
+        this.canvas.on('object:modified', callback as any);
+        break;
+      case 'object:moving':
+        this.canvas.on('object:moving', callback as any);
+        break;
+      case 'object:scaling':
+        this.canvas.on('object:scaling', callback as any);
+        break;
+      case 'object:rotating':
+        this.canvas.on('object:rotating', callback as any);
+        break;
+      default:
+        throw new Error(`Unsupported event: ${event}`);
+    }
   }
 
   off(event: CanvasEventType, callback: EventCallback): void {
-    this.canvas.off(event, callback as any);
+    switch (event) {
+      case 'shape:added':
+        this.canvas.off('object:added', callback as any);
+        break;
+      default:
+        throw new Error(`Unsupported event: ${event}`);
+    }
   }
 
   emit(event: CanvasEventType, ...args: any[]): void {
     // Fabric适配器不直接实现emit方法
+    throw new Error('FabricAdapter does not support emit method.' + event + args.join(','));
     // 事件通过canvas触发
   }
 
