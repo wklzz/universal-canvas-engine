@@ -37,6 +37,14 @@ export class UniversalCanvasEngine implements ICanvasEngine {
     this.adapter.setColor(id, color);
   }
 
+  addText(text: string, x: number, y: number, options?: any): void {
+    this.adapter.addText(text, x, y, options);
+  }
+
+  addImage(src: string, x: number, y: number, options?: any): void {
+    this.adapter.addImage(src, x, y, options);
+  }
+
   draw(layers: any[][]): void {
     this.adapter.draw(layers);
   }

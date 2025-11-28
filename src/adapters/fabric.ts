@@ -50,6 +50,37 @@ export class FabricAdapter implements ICanvasEngine {
     }
   }
 
+  addText(text: string, x: number, y: number, options?: any): void {
+    const textObj = new fabric.FabricText(text, {
+      left: x,
+      top: y,
+      ...options
+    });
+    
+    this.canvas.add(textObj);
+    // 为文本对象生成一个唯一ID并存储
+    const id = `text_${Date.now()}`;
+    this.shapes.set(id, textObj);
+  }
+
+  addImage(src: string, x: number, y: number, options?: any): void {
+    // 简化实现，创建一个图片元素并添加到画布
+    const imgElement = document.createElement('img');
+    imgElement.src = src;
+    imgElement.onload = () => {
+      const img = new fabric.FabricImage(imgElement, {
+        left: x,
+        top: y,
+        ...options
+      });
+      
+      this.canvas.add(img);
+      // 为图片对象生成一个唯一ID并存储
+      const id = `image_${Date.now()}`;
+      this.shapes.set(id, img);
+    };
+  }
+
   draw(layers: any[][]): void {
     // 清除画布
     this.canvas.clear();

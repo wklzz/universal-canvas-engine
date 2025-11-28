@@ -56,6 +56,34 @@ export class SkylineAdapter implements ICanvasEngine {
     }
   }
 
+  addText(text: string, x: number, y: number, options?: any): void {
+    // 创建文本对象
+    const textObj = {
+      id: `text_${Date.now()}`,
+      type: 'text',
+      content: text,
+      position: { x, y },
+      ...options
+    };
+    
+    this.canvas.add(textObj);
+    this.shapes.set(textObj.id, textObj);
+  }
+
+  addImage(src: string, x: number, y: number, options?: any): void {
+    // 创建图片对象
+    const imgObj = {
+      id: `image_${Date.now()}`,
+      type: 'image',
+      src: src,
+      position: { x, y },
+      ...options
+    };
+    
+    this.canvas.add(imgObj);
+    this.shapes.set(imgObj.id, imgObj);
+  }
+
   draw(layers: any[][]): void {
     // 清除画布
     // 按图层顺序绘制

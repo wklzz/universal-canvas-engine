@@ -73,6 +73,8 @@
         <div class="controls">
             <button onclick="addRectangle()">添加矩形</button>
             <button onclick="addCircle()">添加圆形</button>
+            <button onclick="addText()">添加文本</button>
+            <button onclick="addImage()">添加图片</button>
             <button onclick="moveShape()">移动图形</button>
             <button onclick="changeColor()">改变颜色</button>
             <button onclick="serializeCanvas()">序列化画布</button>
@@ -125,6 +127,26 @@
             engine.addShape(shape);
             lastAddedShapeId = shape.id;
             log('添加圆形: ' + JSON.stringify(shape, null, 2));
+        }
+        
+        // 添加文本
+        function addText() {
+            engine.addText('Hello World', Math.random() * 600 + 50, Math.random() * 300 + 50, {
+                fontSize: 20,
+                fill: '#' + Math.floor(Math.random()*16777215).toString(16)
+            });
+            log('添加文本: Hello World');
+        }
+        
+        // 添加图片
+        function addImage() {
+            // 使用一个示例图片URL
+            const imageUrl = 'https://via.placeholder.com/100x100';
+            engine.addImage(imageUrl, Math.random() * 600 + 50, Math.random() * 300 + 50, {
+                width: 100,
+                height: 100
+            });
+            log('添加图片: ' + imageUrl);
         }
         
         // 移动图形

@@ -5,6 +5,10 @@ export interface ICanvasEngine {
   moveShape(id: string, x: number, y: number): void;
   resizeShape(id: string, width: number, height: number): void;
   setColor(id: string, color: string): void;
+  
+  // 特殊形状操作
+  addText(text: string, x: number, y: number, options?: any): void;
+  addImage(src: string, x: number, y: number, options?: any): void;
 
   // 绘制接口（按图层顺序绘制）
   draw(layers: any[][]): void;
