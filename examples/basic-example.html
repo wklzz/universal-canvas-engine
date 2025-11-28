@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>基础使用示例 - Universal Canvas Engine</title>
+    <script src="../node_modules/fabric/dist/fabric.min.js"></script>
+    <script src="../dist/umd/universal-canvas-engine.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .canvas-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        canvas {
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .controls {
+            margin: 20px 0;
+            text-align: center;
+        }
+        button {
+            padding: 10px 15px;
+            margin: 5px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">&larr; 返回示例列表</a>
+        <h1>基础使用示例</h1>
+        <p>本示例展示了如何使用Universal Canvas Engine进行基本的图形操作。</p>
+        
+        <div class="canvas-container">
+            <canvas id="canvas" width="800" height="500"></canvas>
+        </div>
+        
+        <div class="controls">
+            <button onclick="addRectangle()">添加矩形</button>
+            <button onclick="addCircle()">添加圆形</button>
+            <button onclick="moveShape()">移动图形</button>
+            <button onclick="changeColor()">改变颜色</button>
+            <button onclick="serializeCanvas()">序列化画布</button>
+            <button onclick="clearCanvas()">清空画布</button>
+        </div>
+        
+        <div id="output">
+            <h3>输出:</h3>
+            <pre id="log"></pre>
+        </div>
+    </div>
+
+    <script>
+        // 全局变量
+        let shapeCounter = 0;
+        let lastAddedShapeId = null;
+        
+        // 初始化画布引擎
+        const canvasElement = document.getElementById('canvas');
+        const engine = new universalCanvasEngine.UniversalCanvasEngine(canvasElement);
+        
+        // 添加矩形
+        function addRectangle() {
+            const shape = {
+                id: 'rect_' + (++shapeCounter),
+                type: 'rectangle',
+                x: Math.random() * 600 + 50,
+                y: Math.random() * 300 + 50,
+                width: 100,
+                height: 80,
+                color: '#' + Math.floor(Math.random()*16777215).toString(16)
+            };
+            
+            engine.addShape(shape);
+            lastAddedShapeId = shape.id;
+            log('添加矩形: ' + JSON.stringify(shape, null, 2));
+        }
+        
+        // 添加圆形
+        function addCircle() {
+            const shape = {
+                id: 'circle_' + (++shapeCounter),
+                type: 'circle',
+                x: Math.random() * 600 + 50,
+                y: Math.random() * 300 + 50,
+                radius: 50,
+                color: '#' + Math.floor(Math.random()*16777215).toString(16)
+            };
+            
+            engine.addShape(shape);
+            lastAddedShapeId = shape.id;
+            log('添加圆形: ' + JSON.stringify(shape, null, 2));
+        }
+        
+        // 移动图形
+        function moveShape() {
+            if (!lastAddedShapeId) {
+                log('请先添加一个图形');
+                return;
+            }
+            
+            engine.moveShape(lastAddedShapeId, Math.random() * 600 + 50, Math.random() * 300 + 50);
+            log('移动图形 ' + lastAddedShapeId);
+        }
+        
+        // 改变颜色
+        function changeColor() {
+            if (!lastAddedShapeId) {
+                log('请先添加一个图形');
+                return;
+            }
+            
+            const newColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+            engine.setColor(lastAddedShapeId, newColor);
+            log('改变图形 ' + lastAddedShapeId + ' 的颜色为 ' + newColor);
+        }
+        
+        // 序列化画布
+        function serializeCanvas() {
+            const serialized = engine.serialize();
+            log('序列化画布数据:\n' + JSON.stringify(JSON.parse(serialized), null, 2));
+        }
+        
+        // 清空画布
+        function clearCanvas() {
+            // 通过重新绘制空图层来清空画布
+            engine.draw([]);
+            log('清空画布');
+            lastAddedShapeId = null;
+        }
+        
+        // 日志输出
+        function log(message) {
+            const logElement = document.getElementById('log');
+            logElement.textContent = message;
+            console.log(message);
+        }
+        
+        // 页面加载完成后初始化
+        window.addEventListener('load', function() {
+            log('Universal Canvas Engine 已初始化');
+        });
+    </script>
+</body>
+</html>

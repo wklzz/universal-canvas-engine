@@ -16,6 +16,9 @@
     "fabric": "^5.5.2"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^29.0.0",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-typescript": "^12.3.0",
     "concurrently": "^7.6.0",
     "live-server": "^1.2.2",
     "typescript": "^5.0.0"

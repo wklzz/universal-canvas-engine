@@ -1,0 +1,109 @@
+import { ICanvasEngine } from '../index';
+import { fabric } from 'fabric';
+
+export class FabricAdapter implements ICanvasEngine {
+  private canvas: any;
+  private shapes: Map<string, any> = new Map();
+
+  constructor(canvasElement: HTMLCanvasElement) {
+    // 这里应该初始化fabric.Canvas，但由于我们不想让使用方安装fabric，
+    // 我们会在构建时将其作为外部依赖处理
+    this.canvas = new fabric.Canvas(canvasElement);
+  }
+
+  addShape(shape: any): void {
+    // 添加形状到fabric画布
+    const fabricShape = this.createFabricShape(shape);
+    this.canvas.add(fabricShape);
+    this.shapes.set(shape.id, fabricShape);
+  }
+
+  removeShape(id: string): void {
+    const shape = this.shapes.get(id);
+    if (shape) {
+      this.canvas.remove(shape);
+      this.shapes.delete(id);
+    }
+  }
+
+  moveShape(id: string, x: number, y: number): void {
+    const shape = this.shapes.get(id);
+    if (shape) {
+      shape.set({ left: x, top: y });
+      this.canvas.renderAll();
+    }
+  }
+
+  resizeShape(id: string, width: number, height: number): void {
+    const shape = this.shapes.get(id);
+    if (shape) {
+      shape.set({ width, height });
+      this.canvas.renderAll();
+    }
+  }
+
+  setColor(id: string, color: string): void {
+    const shape = this.shapes.get(id);
+    if (shape) {
+      shape.set({ fill: color });
+      this.canvas.renderAll();
+    }
+  }
+
+  draw(layers: any[][]): void {
+    // 清除画布
+    this.canvas.clear();
+    
+    // 按图层顺序绘制
+    layers.forEach(layer => {
+      layer.forEach(shape => {
+        this.addShape(shape);
+      });
+    });
+    
+    this.canvas.renderAll();
+  }
+
+  on(event: string, callback: Function): void {
+    this.canvas.on(event, callback);
+  }
+
+  off(event: string, callback: Function): void {
+    this.canvas.off(event, callback);
+  }
+
+  serialize(): string {
+    return JSON.stringify(this.canvas.toJSON());
+  }
+
+  deserialize(json: string): void {
+    this.canvas.loadFromJSON(json, () => {
+      this.canvas.renderAll();
+    });
+  }
+
+  private createFabricShape(shape: any): any {
+    // 根据形状类型创建对应的fabric对象
+    switch (shape.type) {
+      case 'rectangle':
+        return new (window as any).fabric.Rect({
+          id: shape.id,
+          left: shape.x,
+          top: shape.y,
+          width: shape.width,
+          height: shape.height,
+          fill: shape.color || '#000000'
+        });
+      case 'circle':
+        return new (window as any).fabric.Circle({
+          id: shape.id,
+          left: shape.x,
+          top: shape.y,
+          radius: shape.radius,
+          fill: shape.color || '#000000'
+        });
+      default:
+        throw new Error(`Unsupported shape type: ${shape.type}`);
+    }
+  }
+}
