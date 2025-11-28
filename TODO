@@ -1,10 +1,11 @@
 已经完成的条目后面标记为[DONE]，未完成的条目后面标记为[TODO]。
-1、创建一个canvas绘画引擎，制定一套通用接口，完成canvas绘画[TODO]
-2、安装并使用@universal-canvas/schema进行类型定义，并在文档中体现。[TODO]
-3、创建适配器模式支持多种Canvas实现,如fabric，skyline[TODO]。
-4、添加插件系统支持扩展功能。[TODO]
-5、创建npm run dev 脚本支持本地开发。[TODO]
-6、npm run dev 增加5175端口支持，可以访问本地服务器。[TODO]
-7、增加examples/index.html页面，连接所有示例，并设置为服务器默认页面。[TODO]
-8、创建gitignore文件，忽略不必要的文件和目录。[TODO]
-9、完善README.md文件，介绍项目并设置为首页。[TODO]
+创建一个canvas绘画引擎，制定一套通用接口，完成canvas绘画[TODO]
+安装并使用@universal-canvas/schema进行类型定义，并在文档中体现。[TODO]
+创建适配器模式支持多种Canvas实现,如fabric，skyline[TODO]。
+fabric由本项目引入，不需要使用方安装。[TODO]
+添加插件系统支持扩展功能。[TODO]
+创建npm run dev 脚本支持本地开发。[TODO]
+npm run dev 增加5175端口支持，可以访问本地服务器。[TODO]
+增加examples/index.html页面，连接所有示例，并设置为服务器默认页面。[TODO]
+创建gitignore文件，忽略不必要的文件和目录。[TODO]
+完善README.md文件，介绍项目并设置为首页。[TODO]
