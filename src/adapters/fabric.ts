@@ -3,30 +3,14 @@ import { CanvasEventType, EventCallback } from '../types/events';
 
 // 为了在浏览器和Node.js环境中都能正常工作，我们需要动态获取fabric对象
 // 在Node.js环境中导入fabric
-import * as fabricNamespace from 'fabric';
+import * as fabric from 'fabric';
 
 export class FabricAdapter implements ICanvasEngine {
-  private canvas: any;
+  private canvas: fabric.Canvas;
   private shapes: Map<string, any> = new Map();
 
   constructor(canvasElement: HTMLCanvasElement) {
-    // 这里应该初始化fabric.Canvas，但由于我们不想让使用方安装fabric，
-    // 我们会在构建时将其作为外部依赖处理
-    // 在浏览器环境中，fabric是全局对象
-    // 在Node.js环境中，我们使用导入的fabricNamespace
-    let fabricInstance: any;
-    
-    if (typeof fabric !== 'undefined') {
-      // 浏览器环境
-      fabricInstance = fabric;
-    } else if (typeof fabricNamespace !== 'undefined') {
-      // Node.js环境
-      fabricInstance = fabricNamespace;
-    } else {
-      throw new Error('Fabric library is not available. Please include fabric.js in your HTML or install fabric package.');
-    }
-    
-    this.canvas = new fabricInstance.Canvas(canvasElement);
+    this.canvas = new fabric.Canvas(canvasElement);
   }
 
   addShape(shape: any): void {
