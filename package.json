@@ -17,6 +17,7 @@
     "access": "public"
   },
   "devDependencies": {
+    "@types/wechat-miniprogram": "^3.4.9",
     "typescript": "^5.9.3"
   }
 }
