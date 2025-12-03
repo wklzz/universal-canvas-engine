@@ -9,13 +9,9 @@ export default {
       file: 'dist/umd/universal-canvas-engine.js',
       format: 'umd',
       name: 'universalCanvasEngine',
-      globals: {
-        'fabric': 'fabric'
-      },
       sourcemap: true
     }
   ],
-  external: ['fabric'],
   plugins: [
     resolve({
       browser: true
