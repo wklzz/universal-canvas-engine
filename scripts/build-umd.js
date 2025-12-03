@@ -1,10 +1,10 @@
-const { execSync } = require('child_process');
-const fs = require('fs');
-const path = require('path');
+import { execSync } from 'child_process';
+import fs from 'fs';
+import path from 'path';
 
 try {
   // 确保UMD目录存在
-  const umdDir = path.join(__dirname, '..', 'dist', 'umd');
+  const umdDir = path.join(process.cwd(), 'dist', 'umd');
   if (!fs.existsSync(umdDir)) {
     fs.mkdirSync(umdDir, { recursive: true });
   }

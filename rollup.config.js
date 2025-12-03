@@ -18,7 +18,9 @@ export default {
     }),
     commonjs(),
     typescript({
-      tsconfig: './tsconfig.rollup.json'
+      tsconfig: './tsconfig.json',
+      declaration: false,
+      declarationMap: false
     })
   ]
 };

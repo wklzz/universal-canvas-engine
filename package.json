@@ -1,14 +1,39 @@
 {
   "name": "@universal-canvas/engine",
   "version": "0.1.12",
-  "description": "A universal canvas engine ",
+  "description": "A universal canvas engine that supports multiple canvas implementations including Fabric.js and Skyline.js",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "type": "module",
   "scripts": {
+    "build": "tsc && node scripts/build-umd.js",
+    "dev": "tsc --watch",
+    "prepublishOnly": "npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "files": [
     "dist"
   ],
+  "author": "wklzz",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wklzz/universal-canvas-engine.git"
+  },
+  "keywords": [
+    "canvas",
+    "universal",
+    "engine",
+    "fabric",
+    "skyline",
+    "weapp"
+  ],
+  "dependencies": {
+    "@universal-canvas/schema": "^0.1.0"
+  },
+  "peerDependencies": {
+    "fabric": "^5.0.0"
+  },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^29.0.0",
     "@rollup/plugin-node-resolve": "^16.0.3",
